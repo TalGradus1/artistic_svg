@@ -1,12 +1,14 @@
-from utils.filter_functions import remove_background
+from utils.filter_functions import remove_background,to_line_art
 from PIL import Image
 import numpy as np
 
 
-input_image = Image.open(r"C:\Users\tal\Downloads\b4cd5dd08baf72fe86fbf5dfd41fc14d.jpg")
+input_image = Image.open(r"C:\Users\tal\Downloads\WhatsApp Image 2024-01-26 at 13.11.28.jpeg")
 
 input_array = np.array(input_image)
 output_array = remove_background(input_array)
 
 output_image = Image.fromarray(output_array)
-output_image.save('output_image.png')
+line_art_image = to_line_art(output_image)
+
+line_art_image.save('output_image.png')

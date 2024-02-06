@@ -1,5 +1,8 @@
 import rembg
 import numpy as np
+from controlnet_aux import LineartDetector
+from PIL import ImageOps, Image
+import PIL
 
 
 def remove_background(img_array: np.ndarray, alpha_matting: bool = False, alpha_matting_erode_size: int = 10,
@@ -17,3 +20,15 @@ def remove_background(img_array: np.ndarray, alpha_matting: bool = False, alpha_
     return rembg.remove(img_array, alpha_matting=alpha_matting, alpha_matting_erode_size=alpha_matting_erode_size,
                         alpha_matting_foreground_threshold=alpha_matting_foreground_threshold,
                         alpha_matting_background_threshold=alpha_matting_background_threshold)
+
+
+def to_line_art(image: Image) -> Image:
+    """
+    Converts an image to line art using lllyasviel/Annotators model and returning the inverse.
+    :param image (Image): The image to convert.
+    :return: (Image): converted image
+    """
+    processor = LineartDetector.from_pretrained("lllyasviel/Annotators")
+    control_image = processor(image)
+    im_invert = ImageOps.invert(control_image)
+    return im_invert
